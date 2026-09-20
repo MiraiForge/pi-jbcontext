@@ -1,0 +1,38 @@
+{
+  "name": "@miraiforge/pi-jbcontext",
+  "version": "0.1.0",
+  "description": "Pi extension that mirrors the JetBrains Context (jbcontext) agent hooks: session-boundary indexing and bootstrap-first semantic-search reminders",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "jbcontext",
+    "jetbrains-context",
+    "semantic-search",
+    "code-search"
+  ],
+  "pi": {
+    "extensions": ["./extensions"]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "files": [
+    "extensions",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiraiForge/pi-jbcontext.git"
+  },
+  "homepage": "https://github.com/MiraiForge/pi-jbcontext",
+  "bugs": "https://github.com/MiraiForge/pi-jbcontext/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
