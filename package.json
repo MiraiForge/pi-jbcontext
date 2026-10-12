@@ -4,6 +4,9 @@
   "description": "Pi extension that mirrors the JetBrains Context (jbcontext) agent hooks: session-boundary indexing and bootstrap-first semantic-search reminders",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "test": "node --experimental-strip-types --test --experimental-test-coverage --test-coverage-include=extensions/** --test-coverage-lines=90 --test-coverage-branches=90 tests/*.test.mjs"
+  },
   "keywords": [
     "pi-package",
     "pi-extension",

@@ -68,11 +68,13 @@ export default function (pi: ExtensionAPI) {
 	function indexSilently(cwd: string) {
 		if (!checkBin()) return;
 		try {
-			spawn(BIN, ["index", "--silent"], {
+			const child = spawn(BIN, ["index", "--silent"], {
 				cwd,
 				detached: true,
 				stdio: "ignore",
-			}).unref();
+			});
+			child.on("error", () => {});
+			child.unref();
 		} catch {
 			// never let indexing break a session
 		}
@@ -91,7 +93,7 @@ export default function (pi: ExtensionAPI) {
 		const args = ["hook", event];
 		if (enforce()) args.push("--mode=ENFORCE");
 		return new Promise((resolve) => {
-			execFile(
+			const child = execFile(
 				BIN,
 				args,
 				{ cwd, timeout: HOOK_TIMEOUT_MS, maxBuffer: 1024 * 1024 },
@@ -116,6 +118,9 @@ export default function (pi: ExtensionAPI) {
 					}
 				},
 			);
+			// Hooks read JSON until EOF; leaving stdin open stalls until the timeout.
+			child.stdin?.on("error", () => resolve(null));
+			child.stdin?.end(JSON.stringify(payload));
 		});
 	}
 
