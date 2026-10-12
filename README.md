@@ -72,8 +72,15 @@ No build step — pi loads TypeScript extensions directly (jiti).
 ```bash
 git clone https://github.com/MiraiForge/pi-jbcontext
 cd pi-jbcontext
+npm test                         # dependency-free regression tests and coverage
 pi -e ./extensions/jbcontext.ts   # smoke test in any indexed repo
 ```
+
+Tests use Node's built-in runner and TypeScript stripping (Node 22.8+),
+with minimum 90% line and branch coverage enforced.
+They verify JSON payload delivery, stdin closure, and silent failure handling,
+including a real subprocess that reads its input until EOF. No jbcontext login,
+network access, or indexed project is needed for the automated tests.
 
 ## License
 
