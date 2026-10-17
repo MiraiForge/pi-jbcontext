@@ -1,6 +1,7 @@
 name: Tests
 
 on:
+  pull_request:
   # Manual rollback after the Janus Buildkite pipeline is commissioned.
   workflow_dispatch:
 
@@ -9,7 +10,14 @@ permissions:
 
 jobs:
   test:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo &&
+       github.event.pull_request.head.repo.full_name &&
+       github.event.pull_request.head.repo.full_name != github.repository)
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     strategy:
       matrix:
         node: ["22.8.0", "22", "24"]
