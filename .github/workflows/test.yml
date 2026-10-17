@@ -1,8 +1,8 @@
 name: Tests
 
 on:
-  push:
-  pull_request:
+  # Manual rollback after the Janus Buildkite pipeline is commissioned.
+  workflow_dispatch:
 
 permissions:
   contents: read

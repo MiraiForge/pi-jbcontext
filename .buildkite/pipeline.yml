@@ -1,0 +1,20 @@
+# Reviewed into the Janus agent image; the agent does not load PR-owned YAML.
+steps:
+  - label: Tests (Node 22.8.0)
+    key: test-node-22-8
+    command: janus-ci test-node-22-8
+    agents:
+      queue: janus-linux
+    timeout_in_minutes: 360
+  - label: Tests (Node 22)
+    key: test-node-22
+    command: janus-ci test-node-22
+    agents:
+      queue: janus-linux
+    timeout_in_minutes: 360
+  - label: Tests (Node 24)
+    key: test-node-24
+    command: janus-ci test-node-24
+    agents:
+      queue: janus-linux
+    timeout_in_minutes: 360

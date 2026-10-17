@@ -82,6 +82,19 @@ They verify JSON payload delivery, stdin closure, and silent failure handling,
 including a real subprocess that reads its input until EOF. No jbcontext login,
 network access, or indexed project is needed for the automated tests.
 
+### CI
+
+Buildkite runs `npm test` on Janus using Node 22.8.0, Node 22, and Node 24.
+The reviewed configuration is in `.buildkite/pipeline.yml`; the protected agent
+image supplies the tool versions and checks out the exact source under test.
+Pull requests test an exact merge of their source and base commits.
+
+The GitHub Actions **Tests** workflow remains available through **Run workflow**
+as a manual rollback. Commission and verify all three Buildkite lanes before
+merging the migration, then require the Buildkite status on protected branches.
+To restore automatic Actions, restore the `push` and `pull_request` triggers in
+`.github/workflows/test.yml` and pause the corresponding Buildkite pipeline.
+
 ## License
 
 MIT
