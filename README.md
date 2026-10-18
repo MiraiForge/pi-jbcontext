@@ -82,6 +82,31 @@ They verify JSON payload delivery, stdin closure, and silent failure handling,
 including a real subprocess that reads its input until EOF. No jbcontext login,
 network access, or indexed project is needed for the automated tests.
 
+### CI
+
+Once commissioned, Buildkite runs `npm test` on Janus for trusted repository
+pushes and same-repository pull requests, using Node 22.8.0, Node 22, and Node 24.
+The reviewed configuration is in `.buildkite/pipeline.yml`; the protected agent
+image supplies the tool versions and checks out the exact source under test.
+Same-repository pull requests test an exact merge of their source and base commits.
+
+Outside-contributor fork PRs run all three Node lanes in the GitHub Actions
+**Tests** workflow on ephemeral GitHub-hosted Ubuntu runners. They use the
+`pull_request` event, a read-only token, pinned actions, and a checkout that does
+not persist credentials. No repository secrets or Janus access are provided.
+GitHub may require maintainer approval before a contributor's workflow runs;
+that approval does not make fork code eligible for the trusted Janus pool.
+
+The Actions workflow also remains available through **Run workflow** as a manual
+rollback. Before merging the migration, verify all three live Buildkite lanes,
+a real fork PR, and required-check routing between providers. Do not require
+Buildkite alone for forks or treat a skipped Actions job as proof that trusted
+code passed CI. This workflow change does not configure branch protection.
+
+To restore automatic Actions for trusted code, add the `push` trigger and remove
+the test job's fork-only condition in `.github/workflows/test.yml`, then pause
+the corresponding Buildkite pipeline.
+
 ## License
 
 MIT
